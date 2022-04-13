@@ -33,7 +33,7 @@ class RegistrationSerializer(serializers.Serializer):
 
 class ActivationSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
-    activation_code = serializers.CharField(max_length=8, min_length=8)
+    activation_code = serializers.CharField(max_length=6, min_length=6)
 
     def validate(self, attrs):
         email = attrs.get('email')
