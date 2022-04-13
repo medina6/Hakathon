@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.db import router
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
-from main.views import CategoryListView, PostImageView
+from main.views import CategoryListView, PostsViewSet, PostImageView
+
+
+router = DefaultRouter()
+router.register('posts', PostsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -14,51 +14,7 @@ from rest_framework.response import Response
 from main.models import Category, Post, PostImage
 from .serializers import CategorySerializer, PostSerializer, PostImageSerializer
 from .permissions import IsPostAuthor
-# #
-# #
-# @api_view(['GET'])
-# def categories(request):
-# # #     # if request.method == "GET":
-#         categories = Category.objects.all()
-#         serializer = CategorySerializer(categories, many=True) # formotiruet vse dannye
-#         return Response(serializer.data)   # Zdes hranyatsya dannye posle formatirovnaie
-#     # else:
-#     #     return Response({"message": "Hello makers Bootcamp!"})
-#
-#
-# class PostListView(APIView):
-#     def get(self, request):
-#         posts = Post.objects.all()
-#         serializer = PostSerializer(posts, many=True)
-#         return Response(serializer.data)
-# # #
-#     def post(self, request):
-#         post = request.data
-#         serializer = PostSerializer(data=post)
-#         if serializer.is_valid(raise_exception=True):
-#             post_saved = serializer.save()
-#         return Response(serializer.data)
 
-
-
-# class PostView(generics.ListCreateAPIView):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-#
-#
-# class PostDetailView(generics.RetrieveAPIView):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-#
-#
-# class PostUpdateView(generics.UpdateAPIView):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-#
-#
-# class PostDeleteView(generics.DestroyAPIView):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
 
 class MyPaginationClass(PageNumberPagination):
     page_size = 3
@@ -86,7 +42,6 @@ class PostsViewSet(viewsets.ModelViewSet):
         return {'request': self.request}
 
     def get_permissions(self):
-        """Переопределим данный метод"""
         print(self.action)
         if self.action in ['update', 'partial_update', 'destroy']:
             permissions = [IsPostAuthor, ]
@@ -112,9 +67,9 @@ class PostsViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-    @action(detail=False, methods=['get'])      # router builds path posts/search/q=paris
+    @action(detail=False, methods=['get'])
     def search(self, request, pk=None):
-        q = request.query_params.get('q')             #request.query_params = request.GET
+        q = request.query_params.get('q')
         queryset = self.get_queryset()
         queryset = queryset.filter(Q(title__icontains=q) |
                                    Q(text__icontains=q))
