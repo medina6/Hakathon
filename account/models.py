@@ -30,7 +30,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    activation_code = models.CharField(max_length=7, blank=True)
+    activation_code = models.CharField(max_length=8, blank=True)
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
@@ -48,7 +48,7 @@ class User(AbstractBaseUser):
     @staticmethod
     def generate_activation_code():
         from django.utils.crypto import get_random_string
-        code = get_random_string(8)
+        code = get_random_string(6)
         return code
 
     def set_activation_code(self):
