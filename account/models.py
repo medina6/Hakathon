@@ -66,7 +66,7 @@ class User(AbstractBaseUser):
         send_mail(
             "Account verification",
             message,
-            "admin@gmail.com",
+            "admin@gmail1.com",
             [self.email]
         )
 
@@ -75,6 +75,6 @@ class User(AbstractBaseUser):
         send_mail(
             'Password recovery',
             message,
-            'admin@gmail.com',
+            'admin@gmail1.com',
             [self.email]
         )

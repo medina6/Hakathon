@@ -42,7 +42,7 @@ class PostsViewSet(viewsets.ModelViewSet):
         return {'request': self.request}
 
     def get_permissions(self):
-        print(self.action)
+        # print(self.action)
         if self.action in ['update', 'partial_update', 'destroy']:
             permissions = [IsPostAuthor, ]
         else:
