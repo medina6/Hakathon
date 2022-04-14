@@ -25,3 +25,4 @@ class Post(models.Model):
 class PostImage(models.Model):
     image = models.ImageField(upload_to='posts', blank=True, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+
