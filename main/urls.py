@@ -6,5 +6,6 @@ router = DefaultRouter()
 router.register('posts', PostsViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+
 ]
