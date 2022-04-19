@@ -39,7 +39,7 @@ class ActivationSerializer(serializers.Serializer):
         email = attrs.get('email')
         activation_code = attrs.get('activation_code')
 
-        if not  User.objects.filter(email=email, activation_code=activation_code).exists():
+        if not User.objects.filter(email=email, activation_code=activation_code).exists():
             raise serializers.ValidationError('User is not found')
         return attrs
 

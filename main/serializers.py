@@ -13,12 +13,14 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'category', 'created_at', 'text', 'image', )
+        fields = ('id', 'title', 'category', 'created_at', 'text', 'image')
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['author'] = instance.author.email
         representation['category'] = CategorySerializer(instance.category).data
+        # representation['images'] = PostImageSerializer(instance.images.all(),
+        #                                                many=True, context=self.context).data
         return representation
 
 
@@ -28,8 +30,8 @@ class PostSerializer(serializers.ModelSerializer):
         print(validated_data)
         images = validated_data.pop('images', [])
         post = super().create(validated_data)
-        for image in images:
-            PostImage.objects.create(post=post, image=image)
+        # for image in images:
+        #     PostImage.objects.create(post=post, image=image)
         return post
 
 class PostImageSerializer(serializers.ModelSerializer):
