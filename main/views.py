@@ -40,10 +40,10 @@ class PostsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        weeks_count = int(self.request.query_params.get('week', 0))
-        if weeks_count > 0:
+        days_count = int(self.request.query_params.get('day', 0))
+        if days_count > 0:
             from django.utils import timezone
-            start_date = timezone.now() - timedelta(weeks=weeks_count)
+            start_date = timezone.now() - timedelta(days=days_count)
             queryset = queryset.filter(created_at__gte=start_date)
         return queryset
 
