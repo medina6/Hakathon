@@ -19,8 +19,6 @@ class PostSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['author'] = instance.author.email
         representation['category'] = CategorySerializer(instance.category).data
-        # representation['images'] = PostImageSerializer(instance.images.all(),
-        #                                                many=True, context=self.context).data
         return representation
 
 
@@ -28,10 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['author'] = self.context['request'].user
         print(validated_data)
-        images = validated_data.pop('images', [])
         post = super().create(validated_data)
-        # for image in images:
-        #     PostImage.objects.create(post=post, image=image)
         return post
 
 class PostImageSerializer(serializers.ModelSerializer):

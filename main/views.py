@@ -17,7 +17,7 @@ from .permissions import IsPostAuthor
 
 
 class MyPaginationClass(PageNumberPagination):
-    page_size = 3
+    page_size = 6
 
     def get_paginated_response(self, data):
         for i in range(self.page_size):
@@ -42,7 +42,6 @@ class PostsViewSet(viewsets.ModelViewSet):
         return {'request': self.request}
 
     def get_permissions(self):
-        # print(self.action)
         if self.action in ['update', 'partial_update', 'destroy']:
             permissions = [IsPostAuthor, ]
         else:
