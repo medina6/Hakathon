@@ -60,8 +60,9 @@ class PostsViewSet(viewsets.ModelViewSet):
     def search(self, request, pk=None):
         q = request.query_params.get('q')
         queryset = self.get_queryset()
-        queryset = queryset.filter(Q(title__icontains=q) |
-                                   Q(text__icontains=q))
+        if q:
+            queryset = queryset.filter(Q(title__icontains=q) |
+                                       Q(text__icontains=q))
         serializer = PostSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
