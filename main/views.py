@@ -2,7 +2,9 @@ from datetime import timedelta
 
 from django.db.models import Q
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
+from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -26,6 +28,8 @@ class PostsViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, ]
+    filter_backends = (SearchFilter, DjangoFilterBackend,)
+    search_fields = ('text', 'title')
 
 
     def get_serializer_context(self):
@@ -56,15 +60,15 @@ class PostsViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-    @action(detail=False, methods=['get'])
-    def search(self, request, pk=None):
-        q = request.query_params.get('q')
-        queryset = self.get_queryset()
-        if q:
-            queryset = queryset.filter(Q(title__icontains=q) |
-                                       Q(text__icontains=q))
-        serializer = PostSerializer(queryset, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    # @action(detail=False, methods=['get'])
+    # def search(self, request, pk=None):
+    #     q = request.query_params.get('q')
+    #     queryset = self.get_queryset()
+    #     if q:
+    #         queryset = queryset.filter(Q(title__icontains=q) |
+    #                                    Q(text__icontains=q))
+    #     serializer = PostSerializer(queryset, many=True, context={'request': request})
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class PostImageView(generics.ListCreateAPIView):
